@@ -1,2 +1,2 @@
 # Ibot
-Free ai asking tool
+Free Research Topic Generator
