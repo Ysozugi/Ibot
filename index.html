@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #chat-container {
+            max-width: 400px;
+            margin: 50px auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        #chat-box {
+            height: 300px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+        #user-input {
+            width: 80%;
+            padding: 8px;
+            margin-right: 5px;
+        }
+        button {
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="chat-container">
+    <div id="chat-box"></div>
+    <form id="user-input-form">
+        <input type="text" id="user-input" placeholder="Type your message...">
+        <button type="submit">Send</button>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chatterbot@1.0.5/dist/chatterbot.js"></script>
+<script>
+    // JavaScript code to interact with the chat bot
+
+    // Create a new chat bot
+    var bot = new ChatterBot();
+    
+    // Create a new trainer for the chat bot
+    var trainer = new ChatterBotCorpusTrainer(bot);
+    
+    // Train the chat bot on the English language corpus data
+    trainer.train('chatterbot.corpus.english');
+
+    // Function to display a message in the chat box
+    function displayMessage(sender, message) {
+        var chatBox = document.getElementById('chat-box');
+        chatBox.innerHTML += `<strong>${sender}:</strong> ${message}<br>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Function to handle user input
+    document.getElementById('user-input-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        var userInput = document.getElementById('user-input').value;
+        displayMessage('You', userInput);
+
+        // Get the bot's response
+        var botResponse = bot.get_response(userInput);
+        displayMessage('Bot', botResponse);
+        
+        // Clear the user input field
+        document.getElementById('user-input').value = '';
+    });
+</script>
+
+</body>
+</html>
